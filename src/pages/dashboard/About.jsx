@@ -1,13 +1,14 @@
 import React from 'react'
 import Dashboardlayout from '../../components/layouts/dashboardlayout';
 
-const Home = () => {
+const About = () => {
   return (
-    <Dashboardlayout activeMenu="dashboard">
-      Home
-
+    <Dashboardlayout activeMenue="about">
+       <div className=''>
+        About
+       </div>
     </Dashboardlayout>
   )
 }
 
-export default Home
+export default About
