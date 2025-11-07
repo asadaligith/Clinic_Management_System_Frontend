@@ -1,6 +1,5 @@
 import React from "react"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route ,Navigate } from "react-router-dom"
 import UserProvider from "./context/userContext";
 import Login from "./pages/Auth/Login";
 import Signup from "./pages/Auth/Signup";
@@ -11,8 +10,19 @@ import Contact from "./pages/dashboard/Contact";
 import Appointments from "./pages/dashboard/Appointments";
 import Doctors from "./pages/dashboard/Doctors";
 import History from "./pages/dashboard/History";
+import AdminDashboard from './admin/admindashboard/AdminDashboard';
+import DoctorDashboard from "./admin/admindashboard/DoctorDashboard";
+import AddDoctors from "./admin/add/AddDoctors";
 
 
+const Root =()=>{
+
+  const isauthenticated = !!localStorage.getItem("token");
+  
+  return(
+    isauthenticated ? (<Navigate to="/dashboard" />) : (<Navigate to="/login" />)
+  )
+}
 
 const App = ()=> {
   
@@ -22,14 +32,17 @@ const App = ()=> {
       <Router>
       <Routes>
         <Route path="/"  element={<Root/>} />
-        <Route path="/login" exact element={<Login/>} />
-        <Route path="/signup" exact element={<Signup/>} />
-        <Route path="/dashboard" exact element={<Home/>} />
-        <Route path="/about" exact element={<About/>} />
-        <Route path="/contact" exact element={<Contact/>} />
-        <Route path="/appointment" exact element={<Appointments/>} />
-        <Route path="/doctors" exact element={<Doctors/>} />
-        <Route path="/history" exact element={<History/>} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/signup"  element={<Signup/>} />
+        <Route path="/dashboard"  element={<Home/>} />
+        <Route path="/about"  element={<About/>} />
+        <Route path="/contact"  element={<Contact/>} />
+        <Route path="/appointment"  element={<Appointments/>} />
+        <Route path="/doctors"  element={<Doctors/>} />
+        <Route path="/history"  element={<History/>} />
+        <Route path="/admin"  element={<AdminDashboard/>} />
+        <Route path="/drdashboard" element={<DoctorDashboard/>} />
+        <Route path="/add" element={<AddDoctors/>} />
       </Routes>
       </Router>
 
@@ -47,10 +60,3 @@ const App = ()=> {
 }
 
 export default App
-
-const Root =()=>{
-  const isauthenticated = !!localStorage.getItem("token");
-  return(
-    isauthenticated ? (<Navigate to="/dashboard" />) : (<Navigate to="/login" />)
-  )
-}

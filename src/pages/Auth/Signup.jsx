@@ -1,41 +1,70 @@
-import React, { useState } from 'react'
+import React, { useContext , useState } from 'react'
 import drPic from '../../assets/images/drPic.png'
 import { validateEmail } from '../../utils/helper';
 import Input from '../../input/Input';
+import { userContext } from '../../context/userContext';
+import {API_PATHS} from '../../utils/apiPath';
+import axiosInstance from '../../utils/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error , setError] = useState(null);  
+  const [role, setRole] = useState("");
+
+  const {updateUser} = useContext(userContext);
+  const navigate = useNavigate();
 
 const handleSignup = async (e)=>{
-  e.preventDefault();
-  // Signup Validation Logic Here
+    e.preventDefault();
+    // Signup Validation Logic Here
 
-  if(!fullname){
-    setError("Please Enter Your Full Name");
-    return;
+    if(!fullname){
+      setError("Please Enter Your Full Name");
+      return;
+    }
+
+    if(!validateEmail(email)){
+      setError("Please Enter a valid Email adress");
+      return;
+    }
+
+    if(!password){
+      setError("password is required");
+      return;
+    }
+const finalRole = role || "patient";
+
+try {
+  const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+    fullname,
+    email,
+    password,
+    role: finalRole,
+  });
+
+  const { token, user } = response;
+  if (token) {
+    localStorage.setItem("token", token);
+    updateUser(user);
   }
 
-  if(!validateEmail(email)){
-    setError("Please Enter a valid Email adress");
-    return;
+  // navigate by role
+  if (user?.role === "admin") return navigate("/admin");
+  if (user?.role === "doctor") return navigate("/drdashboard");
+  navigate("/dashboard");
+    
+  } catch (error) {
+      if (error.response && error.response.data && error.response.data.message){
+        setError(error.response.data.message);
+      }
+      else if (!error.message.includes("timeout")){
+        setError("Registration failed. Please Check your network");
+      }
   }
-
-  if(!password){
-    setError("password is required");
-    return;
-  }
-
-  setError("")
-
-// Signup API Call here
-
-
-
-
-}
+};
 
   return (
        <div className='min-h-screen flex items-center justify-center bg-linear-to-br from-blue-100 via-white to-blue-50 px-4'>
@@ -77,6 +106,22 @@ const handleSignup = async (e)=>{
                  placeholder="Min 8 Character" 
                  type="password" 
                  />
+                
+                 {/* 👇 Role Dropdown */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-semibold mb-1">Select Role</label>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            >
+              <option value="">-- Select Role --</option>
+              <option value="patient">Patient</option>
+              <option value="doctor">Doctor</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+
                 <button className="btn-cls" type='submit'>Signup</button>
             </form>
                  <p className="text-center text-gray-500 text-md mt-8">
