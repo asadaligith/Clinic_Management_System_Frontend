@@ -13,12 +13,12 @@ export const API_PATHS = {
     },
     PATIENTS:{
         GET_ALL : "/api/patients/get-patients",
-        GET_BY_ID : "/api/patients/get-patient/", // + id
+        GET_BY_ID : "/api/patients/get-patient/", 
         
     },
     APPOINTMENTS:{
         GET_ALL : "/api/appointments/get-appointments",
-        GET_BY_ID : "/api/appointments/get-appointment/", // + id
+        GET_BY_ID : "/api/appointments/get-appointment/", 
         BOOK_APPOINTMENT : "/api/appointments/bookAppointment",
     },
     ADMIN:{

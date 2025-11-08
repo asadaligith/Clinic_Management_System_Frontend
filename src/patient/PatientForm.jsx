@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
+import { API_PATHS } from '../utils/apiPath';
+import axiosInstance from '../utils/axiosInstance';
+import toast from "react-hot-toast";
 
-const PatientForm = () => {
+const PatientForm = ({doctorId}) => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     patientName: "",
     email: "",
@@ -14,14 +18,28 @@ const PatientForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleBooking = () => {
-    const { patientName, email, cnic, phone, day, date } = formData;
-    if (!patientName || !email || !cnic || !phone || !day || !date) {
-      alert("Please fill all fields!");
-      return;
+  const handleBooking = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+        const payload = {
+            patientName: formData.patientName,
+            email: formData.email,
+            phone: formData.phone,
+            cnic: formData.cnic,
+            doctor: doctorId,
+            date: formData.date
+        };
+        const response = await axiosInstance.post(API_PATHS.APPOINTMENTS.BOOK_APPOINTMENT, payload);
+        console.log("Appointment booked successfully:", response.data);
+        setFormData({ patientName:"", email:"", phone:"", cnic:"", day:"", date:"" });
+        alert(`Appointment booked on ${formData.date} for ${formData.patientName}`);
+    } catch(error) {
+        console.error("Error booking appointment:", error);
+    } finally {
+        setLoading(false);
     }
-    console.log("Appointment data:", formData);
-    alert(`Appointment booked on ${day}, ${date} for ${patientName}`);
+
   };
 
   return (
@@ -29,7 +47,7 @@ const PatientForm = () => {
       <h2 className="text-2xl font-bold mb-6 text-gray-700 text-center">
         Book Your Appointment
       </h2>
-
+      <form onSubmit={handleBooking} >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Full Name */}
         <div>
@@ -114,13 +132,14 @@ const PatientForm = () => {
 
       {/* Submit Button */}
       <div className="mt-6 text-center">
-        <button
-          onClick={handleBooking}
+        <button type="submit"
+        disabled={loading}
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-xl transition"
         >
-          Confirm Appointment
+          {loading ? "Booking..." : "Confirm Appointment"}
         </button>
       </div>
+      </form>
     </div>
   )
 }

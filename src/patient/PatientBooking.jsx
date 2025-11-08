@@ -69,7 +69,7 @@ const PatientBooking = () => {
 
        </div>
 
-        <PatientForm/>
+        <PatientForm doctorId={id}/>
 
     </Dashboardlayout>
   )
