@@ -10,6 +10,9 @@ const AddDoctors = () => {
     specialization: "",
     experience: "",
     phone: "",
+    timing: "", 
+    days: "", 
+    date: "", 
   });
 
   const [loading, setLoading] = useState(false);
@@ -36,6 +39,9 @@ const AddDoctors = () => {
         specialization: "",
         experience: "",
         phone: "",
+        timing: "", 
+        days: "", 
+        date: "", 
       });
     } catch (error) {
       console.error("Error adding doctor:", error);
@@ -128,6 +134,54 @@ const AddDoctors = () => {
               name="phone"
               placeholder="Enter phone number"
               value={formData.phone}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
+            />
+          </div>
+
+           {/* Timing */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              Available Timing
+            </label>
+            <input
+              type="text"
+              name="timing"
+              placeholder="e.g. 10:00 AM - 4:00 PM"
+              value={formData.timing}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
+            />
+          </div>
+
+          
+          {/* Days */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              Available Days
+            </label>
+            <input
+              type="text"
+              name="days"
+              placeholder="e.g. Monday, Wednesday, Friday"
+              value={formData.days}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
+            />
+          </div>
+
+           {/* Date */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              Available From (Start Date)
+            </label>
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
               onChange={handleChange}
               required
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 outline-none"

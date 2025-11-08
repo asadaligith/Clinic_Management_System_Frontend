@@ -7,7 +7,7 @@ export const API_PATHS = {
         REGISTER : "/api/users/signup",
     },
     DOCTORS:{
-        GET_ALL : "/api/doctors/get-doctors",
+        GET_ALL : "/api/doctors",
         GET_BY_ID : "/api/doctors/get-doctor/", // + id
         ADD_DOCTOR : "/api/doctors/add-doctor",
     },
