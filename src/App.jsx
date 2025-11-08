@@ -13,6 +13,7 @@ import History from "./pages/dashboard/History";
 import AdminDashboard from './admin/admindashboard/AdminDashboard';
 import DoctorDashboard from "./admin/admindashboard/DoctorDashboard";
 import AddDoctors from "./admin/add/AddDoctors";
+import PatientBooking from "./patient/PatientBooking";
 
 
 const Root =()=>{
@@ -43,6 +44,7 @@ const App = ()=> {
         <Route path="/admin"  element={<AdminDashboard/>} />
         <Route path="/drdashboard" element={<DoctorDashboard/>} />
         <Route path="/add" element={<AddDoctors/>} />
+        <Route path="/booking/:id" element={<PatientBooking/>} />
       </Routes>
       </Router>
 

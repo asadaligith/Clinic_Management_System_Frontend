@@ -3,8 +3,12 @@ import Dashboardlayout from "../../components/layouts/Dashboardlayout";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPath";
 import { Loader2 } from "lucide-react";
+import {useNavigate }from "react-router-dom";
+
+
 
 const Doctors = () => {
+  const navigate = useNavigate();
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -52,9 +56,12 @@ const Doctors = () => {
 
 
               <div className="text-center">
-                <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
-                  View Profile
+ 
+                  <button onClick={()=> navigate(`/booking/${doc._id}`)}
+                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                  Book Appointment
                 </button>
+
               </div>
             </div>
           ))}

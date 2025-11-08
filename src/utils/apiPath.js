@@ -8,7 +8,7 @@ export const API_PATHS = {
     },
     DOCTORS:{
         GET_ALL : "/api/doctors",
-        GET_BY_ID : "/api/doctors/get-doctor/", // + id
+        GET_BY_ID : "/api/doctors",
         ADD_DOCTOR : "/api/doctors/add-doctor",
     },
     PATIENTS:{

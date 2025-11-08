@@ -54,9 +54,9 @@ const AdminDashboard = () => {
       <div className="bg-white rounded-2xl p-6 shadow mb-8">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">Quick Actions</h2>
         <div className="flex flex-wrap gap-4">
-         <a href="/add">
+         <a href="/doctors">
              <button className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
-            <FaPlus /> Add Doctor
+            <FaListUl /> View Doctor
           </button>
          </a>
           <button className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">

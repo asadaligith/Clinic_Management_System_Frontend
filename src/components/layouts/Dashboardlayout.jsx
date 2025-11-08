@@ -3,7 +3,7 @@ import Navbar from './Navbar'
 
 const Dashboardlayout = ({children, activeMenue}) => {
   return (
-    <div>
+    <div className='bg-linear-to-br from-blue-100 via-white to-blue-50 '>
         <div>
             <Navbar activeMenue={activeMenue}/>
         </div>
