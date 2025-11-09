@@ -64,7 +64,7 @@ const PatientBooking = () => {
         <p className="text-sm text-gray-500 mt-1">
           Timing: {doctor.timing || "Not Set"} | Days: {doctor?.days || "Not Set"} | Date: {doctor.date ? new Date(doctor.date).toLocaleDateString() : "Not Set"}
         </p>
-        doctor details
+        
        </div>
 
        </div>
