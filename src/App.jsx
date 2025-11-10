@@ -14,6 +14,7 @@ import AdminDashboard from './admin/admindashboard/AdminDashboard';
 import DoctorDashboard from "./admin/admindashboard/DoctorDashboard";
 import AddDoctors from "./admin/add/AddDoctors";
 import PatientBooking from "./patient/PatientBooking";
+import AvailableDoctors from './admin/admindashboard/AvailableDoctors'
 import ProtectedRoute from "./components/layouts/ProtectedRoute";
 
 
@@ -73,6 +74,13 @@ const App = ()=> {
             element={
               <ProtectedRoute allowedRoles={["admin"]}>
                 <AddDoctors />
+              </ProtectedRoute>}
+          />
+          <Route
+            path="/doctors-list"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AvailableDoctors />
               </ProtectedRoute>}
           />
 
