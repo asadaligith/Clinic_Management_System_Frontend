@@ -33,7 +33,7 @@ const PatientForm = ({doctorId}) => {
         const response = await axiosInstance.post(API_PATHS.APPOINTMENTS.BOOK_APPOINTMENT, payload);
         console.log("Appointment booked successfully:", response.data);
         setFormData({ patientName:"", email:"", phone:"", cnic:"", day:"", date:"" });
-        alert(`Appointment booked on ${formData.date} for ${formData.patientName}`);
+        toast.success(`Appointment booked on ${formData.date} for ${formData.patientName}`);
     } catch(error) {
         console.error("Error booking appointment:", error);
     } finally {

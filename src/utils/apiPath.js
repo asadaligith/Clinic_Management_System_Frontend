@@ -20,6 +20,7 @@ export const API_PATHS = {
         GET_ALL : "/api/appointments/get-appointments",
         GET_BY_ID : "/api/appointments/get-appointment/", 
         BOOK_APPOINTMENT : "/api/appointments/bookAppointment",
+        CANCEL: "/api/appointments/cancel",
     },
     ADMIN:{
         DASHBOARD_STATS : "/api/admin/dashboard-stats",
