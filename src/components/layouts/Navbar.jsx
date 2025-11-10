@@ -1,11 +1,27 @@
-import React, { useState } from "react";
-import { Menu, X } from "lucide-react"; // for icons (install lucide-react)
-import drLogo from "../../assets/images/drPic.png"; // adjust path if needed
+import React, { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react"; 
+import { useNavigate } from "react-router-dom";
+
 
 const Navbar = ({activeMenue}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+   const handleLogout = () => {
+    // 1. Clear token or any auth data
+    localStorage.removeItem("token"); 
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    navigate("/login");
+   };
 
   return (
     <nav className="bg-linear-to-br from-blue-100 via-white to-blue-50 shadow-md sticky top-0 z-50">
@@ -35,9 +51,12 @@ const Navbar = ({activeMenue}) => {
             <a href="/history" className="hover:text-blue-200 transition">
               History
             </a>
-            <a href="#" className="hover:text-blue-200 transition">
-              Logout
-            </a>
+             {isLoggedIn ? (<button onClick={handleLogout}className="hover:text-red-500 transition font-medium">
+                Logout
+              </button>) :
+               (<a href="/login" className="hover:text-blue-500 transition font-medium">
+                Login
+              </a>)}
           </div>
 
           {/* Mobile Menu Icon */}
@@ -70,9 +89,13 @@ const Navbar = ({activeMenue}) => {
           <a href="/history" className="block hover:text-blue-200">
             History
           </a>
-          <a href="#" className="block hover:text-blue-200">
-            Logout
-          </a>
+           {isLoggedIn ? (<button onClick={handleLogout}
+              className="block w-full text-left hover:text-red-500 transition font-medium">
+              Logout
+            </button>) : 
+            (<a href="/login" className="block hover:text-blue-500 transition font-medium">
+              Login
+            </a>)}
         </div>
       )}
     </nav>

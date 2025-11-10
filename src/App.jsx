@@ -14,6 +14,7 @@ import AdminDashboard from './admin/admindashboard/AdminDashboard';
 import DoctorDashboard from "./admin/admindashboard/DoctorDashboard";
 import AddDoctors from "./admin/add/AddDoctors";
 import PatientBooking from "./patient/PatientBooking";
+import ProtectedRoute from "./components/layouts/ProtectedRoute";
 
 
 const Root =()=>{
@@ -32,18 +33,49 @@ const App = ()=> {
     <UserProvider>
       <Router>
       <Routes>
+         {/* Public Routes */}
         <Route path="/"  element={<Root/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/signup"  element={<Signup/>} />
-        <Route path="/dashboard"  element={<Home/>} />
+
+        {/* Patient Routes */}
+          <Route
+            path="/dashboard"
+            element={<ProtectedRoute allowedRoles={["patient"]}>
+                <Home />
+              </ProtectedRoute>}
+            />
+       
         <Route path="/about"  element={<About/>} />
         <Route path="/contact"  element={<Contact/>} />
         <Route path="/appointment"  element={<Appointments/>} />
         <Route path="/doctors"  element={<Doctors/>} />
         <Route path="/history"  element={<History/>} />
-        <Route path="/admin"  element={<AdminDashboard/>} />
-        <Route path="/drdashboard" element={<DoctorDashboard/>} />
-        <Route path="/add" element={<AddDoctors/>} />
+         {/* Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AdminDashboard />
+              </ProtectedRoute>}
+          />
+          {/* Doctor Routes */}
+          <Route
+            path="/drdashboard"
+            element={
+              <ProtectedRoute allowedRoles={["doctor"]}>
+                <DoctorDashboard />
+              </ProtectedRoute>
+            }/>
+
+        <Route
+            path="/add-doctors"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AddDoctors />
+              </ProtectedRoute>}
+          />
+
         <Route path="/booking/:id" element={<PatientBooking/>} />
       </Routes>
       </Router>
