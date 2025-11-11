@@ -1,21 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Dashboardlayout from "../../components/layouts/Dashboardlayout";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPath";
 import toast from "react-hot-toast";
+import { userContext } from "../../context/userContext";
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useContext(userContext);
 
-  // ✅ Fetch Appointments
+  // ✅ Fetch Appointments for logged-in user
   const fetchAppointments = async () => {
+    if (!user) return; // safety check
+
     try {
-      const response = await axiosInstance.get(API_PATHS.APPOINTMENTS.GET_ALL);
-      console.log("FETCHED APPOINTMENTS RESPONSE:", response);
-      setAppointments(response.data || []);
+      const response = await axiosInstance.get(
+        `${API_PATHS.APPOINTMENTS.GET_BY_ID}` // backend route: /api/appointments/get-appointment
+      );
+      // backend returns { success: true, data: [...] }
+      setAppointments(response.data.data || []);
     } catch (error) {
       console.error("Error fetching appointments:", error);
+      toast.error("Failed to fetch appointments. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -28,7 +35,6 @@ const Appointments = () => {
     try {
       await axiosInstance.delete(`${API_PATHS.APPOINTMENTS.CANCEL}/${id}`);
       toast.success("Appointment cancelled successfully!");
-      // Remove cancelled appointment from UI
       setAppointments((prev) => prev.filter((appt) => appt._id !== id));
     } catch (error) {
       console.error("Error cancelling appointment:", error);
@@ -38,9 +44,8 @@ const Appointments = () => {
 
   useEffect(() => {
     fetchAppointments();
-  }, []);
+  }, [user]); // fetch again if user changes (login/logout)
 
-  // ✅ Loading state
   if (loading) {
     return (
       <Dashboardlayout activeMenue="appointments">
@@ -49,7 +54,6 @@ const Appointments = () => {
     );
   }
 
-  // ✅ Empty state
   if (appointments.length === 0) {
     return (
       <Dashboardlayout activeMenue="appointments">
@@ -58,7 +62,6 @@ const Appointments = () => {
     );
   }
 
-  // ✅ Table UI
   return (
     <Dashboardlayout activeMenue="appointments">
       <h1 className="text-2xl font-semibold mb-6 text-gray-800">
@@ -79,24 +82,26 @@ const Appointments = () => {
           </thead>
           <tbody>
             {appointments.map((appt, i) => (
-            <tr key={appt._id} className="border-t hover:bg-blue-50 transition">
-              <td className="p-3">{i + 1}</td>
-              <td className="p-3">{appt.patientName}</td>
-              <td className="p-3">{appt.doctor?.name || "N/A"}</td>
-              <td className="p-3">{appt.doctor?.date || "—"}</td>
-              <td className="p-3 text-green-600 font-medium">
-                {appt.status || "Booked"}
-              </td>
-              <td className="p-3 text-center">
-            <button
-              onClick={() => handleCancel(appt._id)}
-              className="bg-red-500 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-md shadow-sm transition"
-            >
-                  Cancel
-                </button>
-              </td>
-            </tr>
-          ))} 
+              <tr key={appt._id} className="border-t hover:bg-blue-50 transition">
+                <td className="p-3">{i + 1}</td>
+                <td className="p-3">{appt.patientName}</td>
+                <td className="p-3">{appt.doctor?.name || "N/A"}</td>
+                <td className="p-3">{appt.appointmentDate || "—"}</td>
+                <td className={`p-3 font-medium ${appt.status === "cancelled" ? "text-red-600" : "text-green-600"}`}>
+                  {appt.status || "Booked"}
+                </td>
+                <td className="p-3 text-center">
+                  {appt.status !== "cancelled" && (
+                    <button
+                      onClick={() => handleCancel(appt._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-md shadow-sm transition"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

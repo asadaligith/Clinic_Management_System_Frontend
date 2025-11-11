@@ -16,8 +16,8 @@ const AdminSidebar = () => {
   const navItems = [
     { name: "Dashboard", icon: <FaTachometerAlt />, path: "/admin" },
     { name: "Doctors", icon: <FaUserMd />, path: "/doctors-list" },
-    { name: "Patients", icon: <FaUserInjured />, path: "/patients" },
-    { name: "Appointments", icon: <FaCalendarCheck />, path: "/appointments-list" },
+    { name: "Patients", icon: <FaUserInjured />, path: "/available-patient" },
+    { name: "Appointments", icon: <FaCalendarCheck />, path: "/appointbooking" },
   ];
 
   return (

@@ -21,7 +21,7 @@ const PatientBooking = () => {
             const response = await axiosInstance.get(`${API_PATHS.DOCTORS.GET_BY_ID}/${id}`);
             console.log("FETCHED DOCTOR RESPONSE:", response);
             console.log("API Response:", response);
-            setDoctor(response.data || []);
+            setDoctor(response.data.data || []);
         } catch(error){
             console.error("Error fetching doctor data:", error);
         }

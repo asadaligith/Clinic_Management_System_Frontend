@@ -2,23 +2,27 @@ import { createContext, useState } from "react";
 
 export const userContext = createContext();
 
-const UserProvider = ({children})=>{
-    const [user , setUser] = useState(null);
+const UserProvider = ({ children }) => {
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || null
+  );
 
-    const updateUser = (userData)=>{
-        setUser(userData);
-    };
+  const updateUser = (data) => {
+    setUser(data);
+    localStorage.setItem("user", JSON.stringify(data));
+  };
 
-    const clearUser = ()=>{
-        setUser(null);
-    };
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  };
 
-
-    return(
-        <userContext.Provider value={{user, updateUser, clearUser}}>
-            {children}
-        </userContext.Provider>
-    );
+  return (
+    <userContext.Provider value={{ user, updateUser, logout }}>
+      {children}
+    </userContext.Provider>
+  );
 };
 
 export default UserProvider;

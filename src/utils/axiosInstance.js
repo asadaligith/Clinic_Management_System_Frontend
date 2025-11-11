@@ -19,17 +19,13 @@ axiosInstance.interceptors.request.use(
             config.headers["Authorization"] = `Bearer ${token}`;
         }
         return config;
-    },
-    (error)=>{
-        return Promise.reject(error);
-    }
-
-)
+    });
 
 axiosInstance.interceptors.response.use(
-    (response) =>  {
+    (response) =>  response, (error)=>{
         // Just return the successful response data
-        return response.data;
+        console.error("Axios error:", error);
+    return Promise.reject(error);
     },
 
     // Error Handler: Runs if the request encounters an error (network error or non-2xx status code)

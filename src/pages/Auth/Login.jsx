@@ -18,66 +18,40 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setError(null);
+  e.preventDefault();
+  setError(null);
 
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email");
-      return;
-    }
-    if (!password) {
-      setError("Enter a password");
-      return;
-    }
+  if (!validateEmail(email)) {
+    setError("Please enter a valid email");
+    return;
+  }
+  if (!password) {
+    setError("Enter a password");
+    return;
+  }
 
-    // Use a local value rather than setState for default role
-    const finalRole = role || "patient";
+  setLoading(true);
+  try {
+    const res = await axiosInstance.post(API_PATHS.AUTH.LOGIN, { email, password });
+    const { token, role } = res.data;
 
-    setLoading(true);
-    try {
-      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
-        email,
-        password,
-        role: finalRole,
-      });
+    if (token) localStorage.setItem("token", token);
 
-      // assuming server responds with { token, user }
-      const { token, user } = response;
+    // Set user context with minimal info
+    updateUser({ role, email });
 
-      if (token) {
-        localStorage.setItem("token", token);
-      }
-
-      if (user) {
-        // update context
-        if (typeof updateUser === "function") updateUser(user);
-
-        // route by role
-        if (user.role === "admin") {
-          navigate("/admin");
-          return;
-        }
-        if (user.role === "doctor") {
-          navigate("/drdashboard");
-          return;
-        }
-      }
-
-      // default
-      navigate("/dashboard");
-    } catch (err) {
-      console.error("Login error:", err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else if (err.message && err.message.includes("timeout")) {
-        setError("Request timed out. Please try again.");
-      } else {
-        setError("Login failed. Please check your network or credentials.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+    // Navigate after successful login
+    if (role === "patient") navigate("/dashboard");
+    else if (role === "doctor") navigate("/drdashboard");
+    else if (role === "admin") navigate("/admin");
+  } catch (err) {
+    console.error("Login error:", err);
+    if (err.response?.data?.message) setError(err.response.data.message);
+    else setError("Login failed. Please check credentials or network.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-100 via-white to-blue-50 px-4">

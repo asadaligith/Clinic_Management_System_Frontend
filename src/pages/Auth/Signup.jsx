@@ -38,14 +38,14 @@ const handleSignup = async (e)=>{
 const finalRole = role || "patient";
 
 try {
-  const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+  const res = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
     fullname,
     email,
     password,
     role: finalRole,
   });
 
-  const { token, user } = response;
+  const { token, user } = res.data;
   if (token) {
     localStorage.setItem("token", token);
     updateUser(user);
