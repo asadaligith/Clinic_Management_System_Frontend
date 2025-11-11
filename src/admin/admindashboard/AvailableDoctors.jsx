@@ -18,7 +18,7 @@ const Doctors = () => {
       const response = await axiosInstance.get(API_PATHS.DOCTORS.GET_ALL);
       console.log("FETCHED DOCTORS RESPONSE:", response);
       console.log("API Response:", response);
-      setDoctors(response.data || []);
+      setDoctors(response.data.data || []);
     } catch (error) {
       console.error("Error fetching doctors:", error);
     } finally {

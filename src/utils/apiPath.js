@@ -13,8 +13,8 @@ export const API_PATHS = {
         CANCEL : "/api/doctors/cancel"
     },
     PATIENTS:{
-        GET_ALL : "/api/patients/get-patients",
-        GET_BY_ID : "/api/patients/get-patient/", 
+        GET_ALL : "/api/patients",
+        GET_BY_ID : "/api/appointments-patient/", 
         
     },
     APPOINTMENTS:{

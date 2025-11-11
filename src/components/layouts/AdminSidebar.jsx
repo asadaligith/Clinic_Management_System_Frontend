@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaTachometerAlt,
   FaUserMd,
@@ -7,11 +7,13 @@ import {
   FaCalendarCheck,
   FaBars,
   FaTimes,
+  FaSignOutAlt,
 } from "react-icons/fa";
 
 const AdminSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "Dashboard", icon: <FaTachometerAlt />, path: "/admin" },
@@ -20,9 +22,22 @@ const AdminSidebar = () => {
     { name: "Appointments", icon: <FaCalendarCheck />, path: "/appointbooking" },
   ];
 
+  // 🔹 Logout Function
+  const handleLogout = () => {
+    // remove auth data
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    // optional: show a confirmation
+    alert("Logged out successfully!");
+
+    // redirect to login page
+    navigate("/login");
+  };
+
   return (
     <>
-      {/* Mobile top bar (shows only on small screens) */}
+      {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between bg-blue-700 text-white px-4 py-3 shadow">
         <h2 className="text-lg font-semibold">Admin Panel</h2>
         <button
@@ -35,9 +50,6 @@ const AdminSidebar = () => {
       </div>
 
       {/* Sidebar */}
-      {/* - fixed on md+ so main content can add left margin
-          - slide in/out on mobile using translate-x
-      */}
       <aside
         className={`bg-linear-to-b from-blue-600 to-blue-700 text-white w-64 h-full fixed md:static top-0 left-0 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -77,13 +89,19 @@ const AdminSidebar = () => {
 
           <div className="px-6 py-4 border-t border-blue-500">
             <button
-              onClick={() => {
-                // keep logic minimal: just close on mobile
-                setIsOpen(false);
-              }}
+              onClick={() => setIsOpen(false)}
               className="w-full text-left text-sm px-3 py-2 rounded-md bg-white/6 hover:bg-white/10 transition"
             >
               Help & Support
+            </button>
+
+            {/* 🔹 Logout Button */}
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-2 text-left text-sm px-3 py-2 mt-3 rounded-md bg-red-600 hover:bg-red-700 transition"
+            >
+              <FaSignOutAlt size={16} />
+              Logout
             </button>
           </div>
         </div>

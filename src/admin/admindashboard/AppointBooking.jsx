@@ -12,7 +12,7 @@ const AppointBooking = () => {
         try {
             const response = await axiosInstance.get(API_PATHS.APPOINTMENTS.GET_ALL)
             console.log("FETCHED APPOINTMENTS RESPONSE:", response);
-            setGetappointment(response.data || []);
+            setGetappointment(response.data.data || []);
         } catch (error) {
             console.error("Error Fething Appointment ")
         } finally{
@@ -65,7 +65,7 @@ const AppointBooking = () => {
               <td className="p-3">{i + 1}</td>
               <td className="p-3">{appt.patientName}</td>
               <td className="p-3">{appt.doctor?.name || "N/A"}</td>
-              <td className="p-3">{appt.doctor?.date || "—"}</td>
+              <td className="p-3">{appt.appointmentDate  || "—"}</td>
               <td className="p-3 text-green-600 font-medium">
                 {appt.status || "Booked"}
               </td>
