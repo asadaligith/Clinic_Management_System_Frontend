@@ -31,10 +31,10 @@ const cancelDoctor = async (id) => {
     if (!window.confirm("Are you sure you want to delete this doctor?")) return;
 
     try {
-      await axiosInstance.delete(`${API_PATHS.DOCTORS.CANCEL}/${doctors._id}`);
+      await axiosInstance.delete(`${API_PATHS.DOCTORS.CANCEL}/${id}`);
       toast.success("Doctor Delete successfully!");
 
-      setDoctors((prev) => prev.filter((appt) => appt._id !== id));
+      setDoctors((prev) => prev.filter((doc) => doc._id !== id));
     } catch (error) {
       console.error("Error Deleting Doctor:", error);
       toast.error("Failed to delete Doctor. Please try again.");
@@ -73,7 +73,7 @@ const cancelDoctor = async (id) => {
 
               <div className="text-center">
  
-                  <button onClick={cancelDoctor}
+                  <button onClick={()=>cancelDoctor(doc._id)}
                   className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
                   Delete 
                 </button>
