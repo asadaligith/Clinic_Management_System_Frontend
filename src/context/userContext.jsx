@@ -7,10 +7,15 @@ const UserProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || null
   );
 
-  const updateUser = (data) => {
-    setUser(data);
-    localStorage.setItem("user", JSON.stringify(data));
-  };
+ const updateUser = (data) => {
+  // Ensure doctors have `id` set to MongoDB _id
+  if (data.role === "doctor" && !data.id && data._id) {
+    data.id = data._id;
+  }
+
+  setUser(data);
+  localStorage.setItem("user", JSON.stringify(data));
+};
 
   const logout = () => {
     setUser(null);

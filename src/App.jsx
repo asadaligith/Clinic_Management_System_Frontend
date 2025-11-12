@@ -11,7 +11,7 @@ import Appointments from "./pages/dashboard/Appointments";
 import Doctors from "./pages/dashboard/Doctors";
 import History from "./pages/dashboard/History";
 import AdminDashboard from "./admin/admindashboard/AdminDashboard";
-import DoctorDashboard from "./admin/admindashboard/DoctorDashboard";
+import DoctorDashboard from "./admin/DoctorPanel/DoctorDashboard";
 import AddDoctors from "./admin/add/AddDoctors";
 import PatientBooking from "./patient/PatientBooking";
 import AvailableDoctors from "./admin/admindashboard/AvailableDoctors";

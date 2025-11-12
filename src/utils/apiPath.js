@@ -10,6 +10,7 @@ export const API_PATHS = {
         GET_ALL : "/api/doctors",
         GET_BY_ID : "/api/doctors",
         ADD_DOCTOR : "/api/doctors/add-doctor",
+        GET_APPOINTMENTS: "/api/doctors/getByDoctor",
         CANCEL : "/api/doctors/cancel"
     },
     PATIENTS:{

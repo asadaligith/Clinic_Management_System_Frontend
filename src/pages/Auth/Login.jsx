@@ -33,12 +33,11 @@ const Login = () => {
   setLoading(true);
   try {
     const res = await axiosInstance.post(API_PATHS.AUTH.LOGIN, { email, password });
-    const { token, role } = res.data;
 
+
+    const { token, user } = res.data;
     if (token) localStorage.setItem("token", token);
-
-    // Set user context with minimal info
-    updateUser({ role, email });
+    updateUser(user);
 
     // Navigate after successful login
     if (role === "patient") navigate("/dashboard");

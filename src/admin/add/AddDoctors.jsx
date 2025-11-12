@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { API_PATHS } from "../../utils/apiPath";
 import axiosInstance from "../../utils/axiosInstance";
+import AdminLayout from '../../components/layouts/AdminLayout'
 
 const AddDoctors = () => {
   const [formData, setFormData] = useState({
@@ -52,6 +53,7 @@ const AddDoctors = () => {
   };
 
   return (
+    <AdminLayout activeMenue="appointbooking">
     <div className="min-h-screen bg-gray-100 flex justify-center items-start py-10 px-4">
       <div className="bg-white shadow-lg rounded-2xl w-full max-w-lg p-8">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
@@ -199,6 +201,7 @@ const AddDoctors = () => {
         </form>
       </div>
     </div>
+    </AdminLayout>
   );
 };
 
