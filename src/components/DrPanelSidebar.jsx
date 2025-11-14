@@ -26,6 +26,7 @@ const DrPanelSidebar = () => {
   };
 
   const menuItems = [
+    { name: "Dashboard", icon: <FaCalendarCheck />, path: "/drdashboard" },
     { name: "Appointments", icon: <FaCalendarCheck />, path: "/doctor/appointments" },
     { name: "Patient History", icon: <FaHistory />, path: "/doctor/patient-history" },
   ];

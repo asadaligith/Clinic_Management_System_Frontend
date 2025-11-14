@@ -18,6 +18,8 @@ import AvailableDoctors from "./admin/admindashboard/AvailableDoctors";
 import ProtectedRoute from "./components/layouts/ProtectedRoute";
 import AppointBooking from "./admin/admindashboard/AppointBooking";
 import AvailablePatient from "./admin/admindashboard/AvailablePatient";
+import DoctorAppointments from "./admin/DoctorPanel/DoctorAppointments";
+import PatientHistory from "./admin/DoctorPanel/History";
 
 const Root = () => {
   const token = localStorage.getItem("token");
@@ -106,6 +108,9 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+
+          <Route path="/doctor/appointments" element={<DoctorAppointments />} />
+          <Route path="/doctor/patient-history" element={<PatientHistory />} />
 
           {/* Patient booking */}
           <Route path="/booking/:id" element={<PatientBooking />} />
